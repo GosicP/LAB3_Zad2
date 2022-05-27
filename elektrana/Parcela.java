@@ -10,17 +10,18 @@ import java.awt.Label;
 import java.awt.event.MouseEvent;
 
 public class Parcela extends Label{
-	private String oznaka;
+	private char oznaka;
 	private Color color;
 	public Color boja=Color.WHITE;
-	public Parcela(String oz, Color c) {
+	
+	public Parcela(char oz, Color c) {
 		oznaka=oz;
 		color=c;
 		setFont(new Font(Font.SERIF, Font.BOLD, 14));
 		setForeground(boja);
 		setAlignment(FlowLayout.CENTER);
 		setBackground(c);
-		setText(oznaka);
+		setText("" + oznaka);
 	}
 
 
