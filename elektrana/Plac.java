@@ -1,32 +1,56 @@
 package elektrana;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Panel;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Plac extends Panel {
 	
 	int red, kolona;
-	
+	ArrayList<Parcela> lista  = new ArrayList<>();
+	ArrayList<Parcela> lista_parcela = new ArrayList<>();
+ 	
 	public Plac(int row, int column) {
 		red=row;
 		kolona=column;
+		addMouseListener(new MouseAdapter()  {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+		        Parcela source = (Parcela) e.getSource();  
+		        source.promeniVelicinuFonta(20);
+		        if (lista.isEmpty()==false) {
+		        	lista.remove(lista.size()-1).promeniVelicinuFonta(14);
+		        }
+		        
+		        lista.add(source);
+			}
+		});
 	}
 	
-	public void paint (Graphics g) {
+	public void crtaj () {
 		drawLines();
-	}
+	} 
 	
 	public void drawLines() {
 		setLayout(new GridLayout(red, kolona, 5, 5));
 		for (int i = 0; i<red*kolona ;i++) { 
 			if(verovatnoca()==1) {
-				add(new TravnataPovrs());
+				Parcela travnatapovrs = new TravnataPovrs();
+				travnatapovrs.indeks=i;
+				lista_parcela.add(travnatapovrs);
+				add(travnatapovrs, i);
 			}else {
-				add(new VodenaPovrs());
+				Parcela vodenapovrs = new VodenaPovrs();
+				vodenapovrs.indeks=i;
+				lista_parcela.add(vodenapovrs);
+				add(vodenapovrs, i);
 			}
 		}
 	}
@@ -39,9 +63,33 @@ public class Plac extends Panel {
 			return 2;
 		}
 	}
-	
-	public void mouseClicked(MouseEvent e) {
-		
+
+	public void dodajProizvodjaca(Hidroelektrana hidroelektrana) {
+		if (lista.isEmpty()==false) {
+			Parcela parcela = lista.remove(lista.size()-1);
+			int pozicija = parcela.indeks;
+			remove(parcela);
+			azurirajVodenePovrsi(hidroelektrana, pozicija);
+			add(hidroelektrana, pozicija);
+			validate();
+		}
 	}
-	
+
+	public void azurirajVodenePovrsi(Hidroelektrana hidroelektrana, int pozicija) {
+		int n=0;
+		Parcela parcela = lista_parcela.get(pozicija-1);
+		if (parcela instanceof VodenaPovrs) n++;
+		
+		parcela = lista_parcela.get(pozicija+1);
+		if (parcela instanceof VodenaPovrs) n++;
+		
+		parcela = lista_parcela.get(pozicija-kolona);
+		if (parcela instanceof VodenaPovrs) n++;
+		
+		parcela = lista_parcela.get(pozicija+kolona);
+		if (parcela instanceof VodenaPovrs) n++;
+		
+		hidroelektrana.postaviPovrsine(n);
+	}
 }
+ 

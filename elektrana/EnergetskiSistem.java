@@ -15,10 +15,16 @@ public class EnergetskiSistem extends Frame {
 		Panel topPanel = new Panel();
 		Button dugme = new Button("Dodaj");
 		
-		plac.drawLines();
+		plac.crtaj();
 		
 		centerPanel.add(plac);
 		add(plac, BorderLayout.CENTER);
+		
+		dugme.addActionListener((ae) -> {
+			baterija.isprazniBateriju();
+			plac.dodajProizvodjaca(new Hidroelektrana(baterija));
+			
+		});
 		
 		topPanel.add(dugme);
 		add(topPanel, BorderLayout.NORTH);

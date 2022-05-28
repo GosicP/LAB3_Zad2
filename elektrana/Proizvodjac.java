@@ -35,6 +35,10 @@ public abstract class Proizvodjac extends Parcela implements Runnable{
 	public void run() {
 		try {
 			while(!thread.interrupted()) {
+				if ((neuspeh())==false) {
+					promeniBojuSlova(Color.RED);
+				} //mozda ovo treba da pomeris u while
+				
 				thread.sleep(izrUkupnoVreme());
 				
 				baterija.dodajEnergiju(proizvedi());
@@ -43,9 +47,6 @@ public abstract class Proizvodjac extends Parcela implements Runnable{
 				
 				
 			}
-			if ((neuspeh())==false) {
-				promeniBojuSlova(Color.RED);
-			} //mozda ovo treba da pomeris u while
 		} catch (InterruptedException e) {
 			
 		}

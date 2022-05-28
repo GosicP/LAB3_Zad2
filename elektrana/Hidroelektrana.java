@@ -6,7 +6,7 @@ public class Hidroelektrana extends Proizvodjac implements Runnable {
 	
 	private int vodene_povrsine;
 
-	public Hidroelektrana(char oz, Color c, int vreme, Baterija bat) {
+	public Hidroelektrana(Baterija bat) {
 		super('H', Color.BLUE, 1500, bat);
 		vodene_povrsine=0;
 	}
@@ -31,5 +31,4 @@ public class Hidroelektrana extends Proizvodjac implements Runnable {
 			return false;
 		}
 	}
-
 }
