@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Frame;
 import java.awt.Panel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class EnergetskiSistem extends Frame {
 	
@@ -21,7 +23,7 @@ public class EnergetskiSistem extends Frame {
 		add(plac, BorderLayout.CENTER);
 		
 		dugme.addActionListener((ae) -> {
-			baterija.isprazniBateriju();
+			//baterija.isprazniBateriju();
 			plac.dodajProizvodjaca(new Hidroelektrana(baterija));
 			
 		});
@@ -29,6 +31,12 @@ public class EnergetskiSistem extends Frame {
 		topPanel.add(dugme);
 		add(topPanel, BorderLayout.NORTH);
 		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				plac.zaustaviSve();
+				dispose();
+			}
+		});
 	}
 	
 	public EnergetskiSistem() {

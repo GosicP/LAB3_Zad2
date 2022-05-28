@@ -23,8 +23,11 @@ public abstract class Proizvodjac extends Parcela implements Runnable{
 		return ukupno_vreme;
 	}
 
-	public synchronized void stani() {
-		thread.interrupt();
+	public void stani() {
+		if(thread!=null) {
+			thread.interrupt();
+		}
+		
 	}
 	
 	abstract public int proizvedi();
@@ -44,11 +47,13 @@ public abstract class Proizvodjac extends Parcela implements Runnable{
 				baterija.dodajEnergiju(proizvedi());
 				
 				thread.sleep(300);
-				
+			
 				
 			}
 		} catch (InterruptedException e) {
-			
+			synchronized (this) {
+				thread = null;
+			}
 		}
 	}
 	

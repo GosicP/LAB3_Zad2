@@ -1,7 +1,7 @@
 package elektrana;
 
 public class Baterija {
-
+	//PROVERI NEKIM TEKSTOM SAMO DA LI PUNI BATERIJU I TO JE TO
 	private int kolicina_energije;
 	private int maksimalni_kapacitet;
 	

@@ -71,25 +71,58 @@ public class Plac extends Panel {
 			remove(parcela);
 			azurirajVodenePovrsi(hidroelektrana, pozicija);
 			add(hidroelektrana, pozicija);
+			lista_parcela.remove(pozicija);
+			lista_parcela.add(pozicija, hidroelektrana);
 			validate();
 		}
 	}
 
 	public void azurirajVodenePovrsi(Hidroelektrana hidroelektrana, int pozicija) {
 		int n=0;
-		Parcela parcela = lista_parcela.get(pozicija-1);
-		if (parcela instanceof VodenaPovrs) n++;
+		Parcela parcela;
+		if(pozicija!=0) {
+			parcela = lista_parcela.get(pozicija-1);
+			if (parcela instanceof VodenaPovrs) n++;
+		}
+		if(pozicija!=lista_parcela.size()) {
+			parcela = lista_parcela.get(pozicija+1);
+			if (parcela instanceof VodenaPovrs) n++;
+		}
 		
-		parcela = lista_parcela.get(pozicija+1);
-		if (parcela instanceof VodenaPovrs) n++;
+		if(pozicija-kolona>0) {
+			parcela = lista_parcela.get(pozicija-kolona);
+			if (parcela instanceof VodenaPovrs) n++;
+		}
+		if(pozicija+kolona<lista_parcela.size()) {
+			parcela = lista_parcela.get(pozicija+kolona);
+			if (parcela instanceof VodenaPovrs) n++;
+		}
+		if(pozicija-kolona+1>0) {
+			parcela = lista_parcela.get(pozicija-kolona+1);
+			if (parcela instanceof VodenaPovrs) n++;
+		}
 		
-		parcela = lista_parcela.get(pozicija-kolona);
-		if (parcela instanceof VodenaPovrs) n++;
-		
-		parcela = lista_parcela.get(pozicija+kolona);
-		if (parcela instanceof VodenaPovrs) n++;
-		
+		if(pozicija-kolona-1>0) {
+			parcela = lista_parcela.get(pozicija-kolona-1);
+			if (parcela instanceof VodenaPovrs) n++;
+		}
+		if(pozicija+kolona+1<lista_parcela.size()) {
+			parcela = lista_parcela.get(pozicija+kolona+1);
+			if (parcela instanceof VodenaPovrs) n++;
+		}
+		if(pozicija+kolona-1<lista_parcela.size()) {
+			parcela = lista_parcela.get(pozicija+kolona-1);
+			if (parcela instanceof VodenaPovrs) n++;
+		}
 		hidroelektrana.postaviPovrsine(n);
+	}
+	
+	public void zaustaviSve() {
+		for (int i = 0; i<lista_parcela.size(); i++) {
+				if(lista_parcela.get(i) instanceof Hidroelektrana) {
+					((Proizvodjac) lista_parcela.get(i)).stani();
+			}
+		}
 	}
 }
  
